@@ -1,11 +1,11 @@
 import type { Movie, MovieDetail, MovieRow } from '@/types';
 import { getMockRows, mockMovies, mockMovieDetail } from '@/data/mockData';
 
-const BASE     = 'https://api.themoviedb.org/3';
-const API_KEY  = process.env.TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY || '';
+const BASE = 'https://api.themoviedb.org/3';
+const API_KEY = process.env.TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY || '';
 
-export const IMG_BASE   = 'https://image.tmdb.org/t/p';
-export const posterUrl  = (path: string | null, size = 'w342') =>
+export const IMG_BASE = 'https://image.tmdb.org/t/p';
+export const posterUrl = (path: string | null, size = 'w342') =>
   path ? `${IMG_BASE}/${size}${path}` : null;
 export const backdropUrl = (path: string | null, size = 'original') =>
   path ? `${IMG_BASE}/${size}${path}` : null;
@@ -29,25 +29,25 @@ export async function getHomeRows(): Promise<MovieRow[]> {
   if (!API_KEY) return getMockRows();
 
   const [trending, topRated, action, scifi, drama] = await Promise.all([
-    get<{ results: Movie[] }>("/trending/all/week"),
-    get<{ results: Movie[] }>("/movie/top_rated"),
-    get<{ results: Movie[] }>("/discover/movie?with_genres=28"),
-    get<{ results: Movie[] }>("/discover/movie?with_genres=878"),
-    get<{ results: Movie[] }>("/discover/movie?with_genres=18"),
+    get<{ results: Movie[] }>('/trending/all/week'),
+    get<{ results: Movie[] }>('/movie/top_rated'),
+    get<{ results: Movie[] }>('/discover/movie?with_genres=28'),
+    get<{ results: Movie[] }>('/discover/movie?with_genres=878'),
+    get<{ results: Movie[] }>('/discover/movie?with_genres=18'),
   ]);
 
   return [
-    { title: "🔥 Trending Now", movies: trending?.results ?? [] },
-    { title: "⭐ Top Rated", movies: topRated?.results ?? [] },
-    { title: "🎬 Action & Adventure", movies: action?.results ?? [] },
-    { title: "🚀 Sci-Fi", movies: scifi?.results ?? [] },
-    { title: "🎭 Drama", movies: drama?.results ?? [] },
+    { title: '🔥 Trending Now', movies: trending?.results ?? [] },
+    { title: '⭐ Top Rated', movies: topRated?.results ?? [] },
+    { title: '🎬 Action & Adventure', movies: action?.results ?? [] },
+    { title: '🚀 Sci-Fi', movies: scifi?.results ?? [] },
+    { title: '🎭 Drama', movies: drama?.results ?? [] },
   ].filter((r) => r.movies.length > 0);
 }
 
 export async function getHeroMovie(): Promise<Movie> {
   if (!API_KEY) return mockMovies[0];
-  const data = await get<{ results: Movie[] }>("/trending/movie/day");
+  const data = await get<{ results: Movie[] }>('/trending/movie/day');
   return data?.results?.[0] ?? mockMovies[0];
 }
 
@@ -59,22 +59,22 @@ export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
     return {
       ...movie,
       genres: [
-        { id: 28, name: "Action" },
-        { id: 878, name: "Science Fiction" },
+        { id: 28, name: 'Action' },
+        { id: 878, name: 'Science Fiction' },
       ],
       runtime: 148,
-      tagline: "Mock movie",
-      status: "Released",
+      tagline: 'Mock movie',
+      status: 'Released',
       budget: 0,
       revenue: 0,
       videos: {
         results: [
           {
-            id: "v1",
-            key: "YoHD9XEInc0",
-            name: "Trailer",
-            type: "Trailer",
-            site: "YouTube",
+            id: 'v1',
+            key: 'YoHD9XEInc0',
+            name: 'Trailer',
+            type: 'Trailer',
+            site: 'YouTube',
           },
         ],
       },
@@ -82,8 +82,8 @@ export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
         cast: [
           {
             id: 101,
-            name: "Actor",
-            character: "Role",
+            name: 'Actor',
+            character: 'Role',
             profile_path: null,
             order: 0,
           },
@@ -91,9 +91,9 @@ export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
         crew: [
           {
             id: 200,
-            name: "Director",
-            job: "Director",
-            department: "Directing",
+            name: 'Director',
+            job: 'Director',
+            department: 'Directing',
           },
         ],
       },
@@ -102,20 +102,14 @@ export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
       },
     };
   }
-  const data = await get<MovieDetail>(
-    `/movie/${id}?append_to_response=videos,credits,similar`,
-  );
+  const data = await get<MovieDetail>(`/movie/${id}?append_to_response=videos,credits,similar`);
   return data;
 }
 
 export async function searchMovies(query: string): Promise<Movie[]> {
   if (!API_KEY) {
-    return mockMovies.filter((m) =>
-      m.title.toLowerCase().includes(query.toLowerCase()),
-    );
+    return mockMovies.filter((m) => m.title.toLowerCase().includes(query.toLowerCase()));
   }
-  const data = await get<{ results: Movie[] }>(
-    `/search/multi?query=${encodeURIComponent(query)}`,
-  );
+  const data = await get<{ results: Movie[] }>(`/search/multi?query=${encodeURIComponent(query)}`);
   return data?.results ?? [];
 }

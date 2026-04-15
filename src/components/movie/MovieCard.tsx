@@ -6,7 +6,9 @@ import { posterUrl } from '@/lib/tmdb';
 import { useMyList } from '@/app/mylist-context';
 import clsx from 'clsx';
 
-interface Props { movie: Movie }
+interface Props {
+  movie: Movie;
+}
 
 // Gradient colors for placeholder when no poster
 const PLACEHOLDER_COLORS = [
@@ -20,18 +22,18 @@ const PLACEHOLDER_COLORS = [
 
 export default function MovieCard({ movie }: Props) {
   const [hovered, setHovered] = useState(false);
-  const [imgErr,  setImgErr]  = useState(false);
+  const [imgErr, setImgErr] = useState(false);
   const { addMovie, removeMovie, isSaved } = useMyList();
   const saved = isSaved(movie.id);
 
-  const title     = movie.title || movie.name || 'Unknown';
-  const poster    = posterUrl(movie.poster_path, 'w342');
-  const year = (movie.release_date || movie.first_air_date || "").slice(0, 4);
+  const title = movie.title || movie.name || 'Unknown';
+  const poster = posterUrl(movie.poster_path, 'w342');
+  const year = (movie.release_date || movie.first_air_date || '').slice(0, 4);
   const rating = movie.vote_average?.toFixed(1);
   const colorIdx = movie.id % PLACEHOLDER_COLORS.length;
   const overview =
-    (movie.overview || "").slice(0, 85) +
-    (movie.overview && movie.overview.length > 85 ? "..." : "");
+    (movie.overview || '').slice(0, 85) +
+    (movie.overview && movie.overview.length > 85 ? '...' : '');
 
   const handleAddToList = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ export default function MovieCard({ movie }: Props) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          transform: hovered ? "scale(1.05) translateY(-8px)" : "scale(1)",
+          transform: hovered ? 'scale(1.05) translateY(-8px)' : 'scale(1)',
           zIndex: hovered ? 50 : 1,
         }}
       >
@@ -66,14 +68,12 @@ export default function MovieCard({ movie }: Props) {
           ) : (
             <div
               className={clsx(
-                "w-full h-full bg-gradient-to-b flex flex-col items-center justify-center p-3 text-center",
-                PLACEHOLDER_COLORS[colorIdx],
+                'w-full h-full bg-gradient-to-b flex flex-col items-center justify-center p-3 text-center',
+                PLACEHOLDER_COLORS[colorIdx]
               )}
             >
               <span className="text-4xl mb-2">🎬</span>
-              <span className="text-white text-sm font-bold leading-tight">
-                {title}
-              </span>
+              <span className="text-white text-sm font-bold leading-tight">{title}</span>
             </div>
           )}
         </div>
@@ -81,8 +81,8 @@ export default function MovieCard({ movie }: Props) {
         {/* Hover overlay - improved design */}
         <div
           className={clsx(
-            "absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black/95 flex flex-col justify-between p-4 transition-all duration-200 pointer-events-none",
-            hovered ? "opacity-100" : "opacity-0",
+            'absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black/95 flex flex-col justify-between p-4 transition-all duration-200 pointer-events-none',
+            hovered ? 'opacity-100' : 'opacity-0'
           )}
         >
           {/* Top section - title */}
@@ -91,8 +91,8 @@ export default function MovieCard({ movie }: Props) {
           {/* Bottom section - info and buttons */}
           <div
             className={clsx(
-              "transition-all duration-200",
-              hovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
+              'transition-all duration-200',
+              hovered ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
             )}
           >
             <h3 className="text-white text-sm font-bold leading-tight mb-2 line-clamp-2">
@@ -104,24 +104,14 @@ export default function MovieCard({ movie }: Props) {
               {rating && (
                 <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded">
                   <span className="text-yellow-400 text-xs font-bold">★</span>
-                  <span className="text-white text-xs font-semibold">
-                    {rating}
-                  </span>
+                  <span className="text-white text-xs font-semibold">{rating}</span>
                 </div>
               )}
-              {year && (
-                <span className="text-gray-300 text-xs font-semibold">
-                  {year}
-                </span>
-              )}
+              {year && <span className="text-gray-300 text-xs font-semibold">{year}</span>}
             </div>
 
             {/* Overview snippet */}
-            {overview && (
-              <p className="text-gray-200 text-xs line-clamp-2 mb-3">
-                {overview}
-              </p>
-            )}
+            {overview && <p className="text-gray-200 text-xs line-clamp-2 mb-3">{overview}</p>}
 
             {/* Action buttons */}
             <div className="flex items-center gap-2 pointer-events-auto">
@@ -129,29 +119,20 @@ export default function MovieCard({ movie }: Props) {
                 className="flex-shrink-0 w-8 h-8 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-all duration-200 hover:scale-110 shadow-lg"
                 onClick={(e) => e.preventDefault()}
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </button>
               <button
                 className={clsx(
-                  "flex-shrink-0 w-8 h-8 border-2 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg",
-                  saved
-                    ? "bg-red-500 border-red-500"
-                    : "border-white hover:bg-white/20",
+                  'flex-shrink-0 w-8 h-8 border-2 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg',
+                  saved ? 'bg-red-500 border-red-500' : 'border-white hover:bg-white/20'
                 )}
                 onClick={handleAddToList}
               >
                 <svg
-                  className={clsx(
-                    "w-4 h-4",
-                    saved ? "text-white" : "text-white",
-                  )}
-                  fill={saved ? "currentColor" : "none"}
+                  className={clsx('w-4 h-4', saved ? 'text-white' : 'text-white')}
+                  fill={saved ? 'currentColor' : 'none'}
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
