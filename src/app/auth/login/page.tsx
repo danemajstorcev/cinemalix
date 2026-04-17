@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 export default function LoginPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [email,    setEmail]    = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error,    setError]    = useState('');
-  const [loading,  setLoading]  = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (status === 'authenticated') router.replace('/browse');
@@ -25,30 +25,30 @@ export default function LoginPage() {
     else router.replace('/browse');
   };
 
-  const fillDemo = () => { setEmail('demo@cinemalix.com'); setPassword('demo1234'); };
+  const fillDemo = () => {
+    setEmail('demo@cinemalix.com');
+    setPassword('demo1234');
+  };
 
   if (status === 'loading') return null;
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black">
-
-      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-30"
-        style={{ backgroundImage: 'url(https://assets.nflxext.com/ffe/siteui/vlv3/9db4acf2-7066-4a1e-87ff-5ae82abdd2eb/63f0db4f-5b68-4908-9c76-da8e79569600/AU-en-20230828-popsignuptwoweeks-perspective_alpha_website_large.jpg)' }}
+        style={{
+          backgroundImage:
+            'url(https://assets.nflxext.com/ffe/siteui/vlv3/9db4acf2-7066-4a1e-87ff-5ae82abdd2eb/63f0db4f-5b68-4908-9c76-da8e79569600/AU-en-20230828-popsignuptwoweeks-perspective_alpha_website_large.jpg)',
+        }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
-
-      {/* Header */}
       <div className="absolute top-0 left-0 right-0 px-6 sm:px-12 py-5">
-        <span className="font-bold text-netflix-red text-2xl sm:text-3xl tracking-tight">CINEMALIX</span>
+        <span className="font-bold text-netflix-red text-2xl sm:text-3xl tracking-tight">
+          CINEMALIX
+        </span>
       </div>
-
-      {/* Form */}
       <div className="relative bg-black/75 rounded-md px-6 sm:px-12 py-10 w-full max-w-md mx-4">
         <h1 className="text-white font-bold text-2xl sm:text-3xl mb-6">Sign In</h1>
-
-        {/* Demo credentials hint */}
         <button
           type="button"
           onClick={fillDemo}
@@ -97,13 +97,14 @@ export default function LoginPage() {
 
         <p className="text-gray-400 text-sm mt-4 text-center">
           New to Cinemalix?{' '}
-          <button onClick={fillDemo} className="text-white font-semibold hover:underline cursor-pointer">
+          <button
+            onClick={fillDemo}
+            className="text-white font-semibold hover:underline cursor-pointer"
+          >
             Use demo account
           </button>
         </p>
       </div>
-
-      {/* Footer */}
       <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-12 py-5 text-center text-gray-500 text-xs">
         © {new Date().getFullYear()} Cinemalix. Portfolio project — not a real streaming service.
       </div>

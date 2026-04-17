@@ -4,11 +4,14 @@ import type { Movie } from '@/types';
 import MovieCard from './MovieCard';
 import clsx from 'clsx';
 
-interface Props { title: string; movies: Movie[] }
+interface Props {
+  title: string;
+  movies: Movie[];
+}
 
 export default function MovieRow({ title, movies }: Props) {
   const rowRef = useRef<HTMLDivElement>(null);
-  const [canLeft,  setCanLeft]  = useState(false);
+  const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(true);
 
   const scroll = (dir: 'left' | 'right') => {
@@ -33,7 +36,6 @@ export default function MovieRow({ title, movies }: Props) {
       </h2>
 
       <div className="relative px-4 sm:px-8 lg:px-16">
-        {/* Left arrow */}
         <button
           onClick={() => scroll('left')}
           className={clsx(
@@ -42,11 +44,14 @@ export default function MovieRow({ title, movies }: Props) {
           )}
         >
           <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
-
-        {/* Scrollable row */}
         <div
           ref={rowRef}
           onScroll={onScroll}
@@ -65,15 +70,12 @@ export default function MovieRow({ title, movies }: Props) {
               <div className="hidden sm:block" style={{ width: 'calc(100%)' }}>
                 <MovieCard movie={movie} />
               </div>
-              {/* Mobile: slightly larger */}
               <div className="sm:hidden">
                 <MovieCard movie={movie} />
               </div>
             </div>
           ))}
         </div>
-
-        {/* Right arrow */}
         <button
           onClick={() => scroll('right')}
           className={clsx(

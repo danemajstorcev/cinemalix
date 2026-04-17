@@ -17,8 +17,6 @@ export default async function BrowsePage() {
       <Navbar />
 
       <HeroBanner movie={hero} />
-
-      {/* Movie rows — overlap the hero slightly */}
       <div className="relative -mt-12 sm:-mt-16 lg:-mt-24 z-10 pb-12">
         {rows.map((row) => (
           <MovieRow key={row.title} title={row.title} movies={row.movies} />

@@ -10,7 +10,6 @@ interface Props {
   movie: Movie;
 }
 
-// Gradient colors for placeholder when no poster
 const PLACEHOLDER_COLORS = [
   'from-red-900 to-red-700',
   'from-blue-900 to-blue-700',
@@ -55,7 +54,6 @@ export default function MovieCard({ movie }: Props) {
           zIndex: hovered ? 50 : 1,
         }}
       >
-        {/* Poster */}
         <div className="aspect-[2/3] w-full bg-gray-800 overflow-hidden">
           {poster && !imgErr ? (
             <img
@@ -77,18 +75,13 @@ export default function MovieCard({ movie }: Props) {
             </div>
           )}
         </div>
-
-        {/* Hover overlay - improved design */}
         <div
           className={clsx(
             'absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black/95 flex flex-col justify-between p-4 transition-all duration-200 pointer-events-none',
             hovered ? 'opacity-100' : 'opacity-0'
           )}
         >
-          {/* Top section - title */}
           <div className="flex-1" />
-
-          {/* Bottom section - info and buttons */}
           <div
             className={clsx(
               'transition-all duration-200',
@@ -98,8 +91,6 @@ export default function MovieCard({ movie }: Props) {
             <h3 className="text-white text-sm font-bold leading-tight mb-2 line-clamp-2">
               {title}
             </h3>
-
-            {/* Metadata */}
             <div className="flex items-center gap-3 mb-3">
               {rating && (
                 <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded">
@@ -109,11 +100,7 @@ export default function MovieCard({ movie }: Props) {
               )}
               {year && <span className="text-gray-300 text-xs font-semibold">{year}</span>}
             </div>
-
-            {/* Overview snippet */}
             {overview && <p className="text-gray-200 text-xs line-clamp-2 mb-3">{overview}</p>}
-
-            {/* Action buttons */}
             <div className="flex items-center gap-2 pointer-events-auto">
               <button
                 className="flex-shrink-0 w-8 h-8 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-all duration-200 hover:scale-110 shadow-lg"
