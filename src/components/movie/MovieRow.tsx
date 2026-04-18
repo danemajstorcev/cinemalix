@@ -5,19 +5,20 @@ import MovieCard from './MovieCard';
 import clsx from 'clsx';
 
 interface Props {
-  title:  string;
+  title: string;
   movies: Movie[];
 }
 
 export default function MovieRow({ title, movies }: Props) {
-  const rowRef  = useRef<HTMLDivElement>(null);
-  const [canLeft,  setCanLeft]  = useState(false);
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(true);
 
   const scroll = (dir: 'left' | 'right') => {
     if (!rowRef.current) return;
     rowRef.current.scrollBy({
-      left:     dir === 'right' ? rowRef.current.clientWidth * 0.8 : -(rowRef.current.clientWidth * 0.8),
+      left:
+        dir === 'right' ? rowRef.current.clientWidth * 0.8 : -(rowRef.current.clientWidth * 0.8),
       behavior: 'smooth',
     });
   };
@@ -51,7 +52,13 @@ export default function MovieRow({ title, movies }: Props) {
             !canLeft && 'pointer-events-none opacity-0 group-hover/row:opacity-0'
           )}
         >
-          <svg className="w-5 h-5 text-white drop-shadow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg
+            className="w-5 h-5 text-white drop-shadow"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2.5}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
@@ -89,7 +96,13 @@ export default function MovieRow({ title, movies }: Props) {
             !canRight && 'pointer-events-none opacity-0 group-hover/row:opacity-0'
           )}
         >
-          <svg className="w-5 h-5 text-white drop-shadow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg
+            className="w-5 h-5 text-white drop-shadow"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2.5}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </button>

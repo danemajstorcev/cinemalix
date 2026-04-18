@@ -1,13 +1,7 @@
-"use client";
+'use client';
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import type { Movie } from "@/types";
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import type { Movie } from '@/types';
 
 interface MyListContextType {
   movies: Movie[];
@@ -23,7 +17,7 @@ export function MyListProvider({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("cinemalix-mylist");
+    const saved = localStorage.getItem('cinemalix-mylist');
     if (saved) {
       try {
         setMovies(JSON.parse(saved));
@@ -36,7 +30,7 @@ export function MyListProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (mounted) {
-      localStorage.setItem("cinemalix-mylist", JSON.stringify(movies));
+      localStorage.setItem('cinemalix-mylist', JSON.stringify(movies));
     }
   }, [movies, mounted]);
 
@@ -65,7 +59,7 @@ export function MyListProvider({ children }: { children: ReactNode }) {
 export function useMyList() {
   const context = useContext(MyListContext);
   if (!context) {
-    throw new Error("useMyList must be used within MyListProvider");
+    throw new Error('useMyList must be used within MyListProvider');
   }
   return context;
 }

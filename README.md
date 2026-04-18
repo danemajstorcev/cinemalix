@@ -2,6 +2,8 @@
 
 A Netflix-inspired movie streaming application built with Next.js 15, React 19, and Tailwind CSS.
 
+## Live demo: https://cinemalix.vercel.app/
+
 ## Features ✨
 
 - 🎬 Browse trending movies and TV shows
@@ -38,7 +40,7 @@ Use these credentials to log in:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/danemajstorcev/cinemalix
 cd cinemalix
 
 # Install dependencies
@@ -67,34 +69,3 @@ NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_secret_here
 ```
 
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
-
-## Deployment
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
-
-## Project Structure
-
-```
-src/
-├── app/              # Next.js app routes
-│   ├── api/         # API routes (NextAuth)
-│   ├── auth/        # Auth pages
-│   ├── browse/      # Browse movies page
-│   ├── movie/       # Movie detail page
-│   ├── mylist/      # Watchlist page
-│   └── search/      # Search page
-├── components/      # Reusable React components
-├── lib/            # Utilities (auth, API)
-├── data/           # Mock data
-└── types/          # TypeScript types
-```
-
-## License
-
-MIT

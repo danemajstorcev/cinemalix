@@ -2,7 +2,7 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 const DEMO_PROFILES = [
-  { id: '1', name: 'Alex',  email: 'demo@cinemalix.com', password: 'demo1234', avatar: '🎬' },
+  { id: '1', name: 'Alex', email: 'demo@cinemalix.com', password: 'demo1234', avatar: '🎬' },
   { id: '2', name: 'Sarah', email: 'sarah@cinemalix.com', password: 'demo1234', avatar: '🍿' },
 ];
 
@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        email:    { label: 'Email',    type: 'email'    },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
@@ -22,15 +22,19 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  pages:   { signIn: '/auth/login' },
+  pages: { signIn: '/auth/login' },
   session: { strategy: 'jwt' },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) { token.avatar = (user as any).avatar; }
+      if (user) {
+        token.avatar = (user as any).avatar;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) { (session.user as any).avatar = token.avatar; }
+      if (session.user) {
+        (session.user as any).avatar = token.avatar;
+      }
       return session;
     },
   },

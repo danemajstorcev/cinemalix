@@ -3,7 +3,7 @@ import { SessionProvider } from './providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title:       { default: 'Cinemalix', template: '%s | Cinemalix' },
+  title: { default: 'Cinemalix', template: '%s | Cinemalix' },
   description: 'Watch movies and TV shows online. Cinemalix — your personal cinema.',
 };
 

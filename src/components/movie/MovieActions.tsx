@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useMyList } from "@/app/mylist-context";
-import type { MovieDetail } from "@/types";
+import { useMyList } from '@/app/mylist-context';
+import type { MovieDetail } from '@/types';
 
 interface Props {
   movie: MovieDetail;
@@ -10,10 +10,8 @@ interface Props {
 export default function MovieActions({ movie }: Props) {
   const { addMovie, removeMovie, isSaved } = useMyList();
   const saved = isSaved(movie.id);
-  const trailer = movie.videos?.results?.find(
-    (v) => v.type === "Trailer" && v.site === "YouTube",
-  );
-  const title = movie.title || movie.name || "Unknown";
+  const trailer = movie.videos?.results?.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
+  const title = movie.title || movie.name || 'Unknown';
 
   const handleAddToList = () => {
     if (saved) {
@@ -49,33 +47,18 @@ export default function MovieActions({ movie }: Props) {
         onClick={handleAddToList}
         className={`flex items-center gap-2 font-bold px-6 py-3 rounded text-sm transition-colors ${
           saved
-            ? "bg-red-600 text-white hover:bg-red-700"
-            : "bg-gray-600/70 text-white hover:bg-gray-500/70"
+            ? 'bg-red-600 text-white hover:bg-red-700'
+            : 'bg-gray-600/70 text-white hover:bg-gray-500/70'
         }`}
       >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           {saved ? (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M20 12H4"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
           ) : (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           )}
         </svg>
-        {saved ? "Remove from List" : "Add to My List"}
+        {saved ? 'Remove from List' : 'Add to My List'}
       </button>
     </div>
   );

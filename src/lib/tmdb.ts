@@ -1,16 +1,15 @@
 import type { Movie, MovieDetail, MovieRow } from '@/types';
 import { getMockRows, mockMovies } from '@/data/mockData';
 
-const BASE    = 'https://api.themoviedb.org/3';
+const BASE = 'https://api.themoviedb.org/3';
 const API_KEY = process.env.TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY || '';
 
-export const IMG_BASE    = 'https://image.tmdb.org/t/p';
-export const posterUrl   = (path: string | null, size = 'w342') =>
+export const IMG_BASE = 'https://image.tmdb.org/t/p';
+export const posterUrl = (path: string | null, size = 'w342') =>
   path ? `${IMG_BASE}/${size}${path}` : null;
 export const backdropUrl = (path: string | null, size = 'original') =>
   path ? `${IMG_BASE}/${size}${path}` : null;
 
-// Build a valid URL — handles endpoints that already contain query params
 const buildUrl = (endpoint: string): string => {
   const separator = endpoint.includes('?') ? '&' : '?';
   return `${BASE}${endpoint}${separator}api_key=${API_KEY}&language=en-US`;
@@ -41,19 +40,21 @@ export async function getHomeRows(): Promise<MovieRow[]> {
     get<{ results: Movie[] }>('/movie/top_rated'),
     get<{ results: Movie[] }>('/discover/movie?with_genres=28&sort_by=popularity.desc'),
     get<{ results: Movie[] }>('/discover/movie?with_genres=878&sort_by=popularity.desc'),
-    get<{ results: Movie[] }>('/discover/movie?with_genres=18&sort_by=vote_average.desc&vote_count.gte=1000'),
+    get<{ results: Movie[] }>(
+      '/discover/movie?with_genres=18&sort_by=vote_average.desc&vote_count.gte=1000'
+    ),
     get<{ results: Movie[] }>('/discover/movie?with_genres=53&sort_by=popularity.desc'),
     get<{ results: Movie[] }>('/discover/movie?with_genres=35&sort_by=popularity.desc'),
   ]);
 
   return [
-    { title: '🔥 Trending Now',      movies: trending?.results  ?? [] },
-    { title: '⭐ Top Rated',          movies: topRated?.results  ?? [] },
-    { title: '🎬 Action & Adventure', movies: action?.results    ?? [] },
-    { title: '🚀 Sci-Fi',             movies: scifi?.results     ?? [] },
-    { title: '🎭 Drama',              movies: drama?.results     ?? [] },
-    { title: '😱 Thrillers',          movies: thriller?.results  ?? [] },
-    { title: '😂 Comedy',             movies: comedy?.results    ?? [] },
+    { title: '🔥 Trending Now', movies: trending?.results ?? [] },
+    { title: '⭐ Top Rated', movies: topRated?.results ?? [] },
+    { title: '🎬 Action & Adventure', movies: action?.results ?? [] },
+    { title: '🚀 Sci-Fi', movies: scifi?.results ?? [] },
+    { title: '🎭 Drama', movies: drama?.results ?? [] },
+    { title: '😱 Thrillers', movies: thriller?.results ?? [] },
+    { title: '😂 Comedy', movies: comedy?.results ?? [] },
   ].filter((r) => r.movies.length > 0);
 }
 
@@ -61,7 +62,6 @@ export async function getHeroMovie(): Promise<Movie> {
   if (!API_KEY) return mockMovies[0];
   const data = await get<{ results: Movie[] }>('/trending/movie/day');
   const movies = data?.results ?? [];
-  // Pick a random movie from top 5 for variety
   const pick = movies[Math.floor(Math.random() * Math.min(5, movies.length))];
   return pick ?? mockMovies[0];
 }
@@ -69,16 +69,21 @@ export async function getHeroMovie(): Promise<Movie> {
 export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
   if (!API_KEY) {
     const movieId = parseInt(id);
-    const movie   = mockMovies.find((m) => m.id === movieId);
+    const movie = mockMovies.find((m) => m.id === movieId);
     if (!movie) return null;
     return {
       ...movie,
-      genres: [{ id: 28, name: 'Action' }, { id: 878, name: 'Science Fiction' }],
+      genres: [
+        { id: 28, name: 'Action' },
+        { id: 878, name: 'Science Fiction' },
+      ],
       runtime: 148,
       tagline: 'Demo mode',
       status: 'Released',
       videos: {
-        results: [{ id: 'v1', key: 'YoHD9XEInc0', name: 'Trailer', type: 'Trailer', site: 'YouTube' }],
+        results: [
+          { id: 'v1', key: 'YoHD9XEInc0', name: 'Trailer', type: 'Trailer', site: 'YouTube' },
+        ],
       },
       credits: {
         cast: [{ id: 101, name: 'Actor Name', character: 'Role', profile_path: null, order: 0 }],
@@ -88,13 +93,11 @@ export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
     };
   }
 
-  // Fetch movie + all extras in one call
   const data = await get<MovieDetail>(
     `/movie/${id}?append_to_response=videos,credits,similar,recommendations`
   );
 
   if (!data) {
-    // Could be a TV show ID — try the tv endpoint
     const tvData = await get<MovieDetail>(
       `/tv/${id}?append_to_response=videos,credits,similar,recommendations`
     );
@@ -106,15 +109,11 @@ export async function getMovieDetail(id: string): Promise<MovieDetail | null> {
 
 export async function searchMovies(query: string): Promise<Movie[]> {
   if (!API_KEY) {
-    return mockMovies.filter((m) =>
-      m.title.toLowerCase().includes(query.toLowerCase())
-    );
+    return mockMovies.filter((m) => m.title.toLowerCase().includes(query.toLowerCase()));
   }
-  // Use multi search — returns movies AND tv shows
   const data = await get<{ results: Movie[] }>(
     `/search/multi?query=${encodeURIComponent(query)}&include_adult=false`
   );
-  // Filter out people and other non-media results
   return (data?.results ?? []).filter(
     (r: any) => r.media_type === 'movie' || r.media_type === 'tv'
   );
